@@ -9,8 +9,10 @@ router.get("/", async (req, res) => {
     const result = await pool.query("SELECT * FROM public.carousel ORDER BY id ASC");
     res.json(result.rows);
   } catch (err) {
-    res.status(500).json({ error: "Failed" });
-  }
+  console.error("Carousel query error:", err);
+  res.status(500).json({ error: err.message });
+}
+
 });
 
 // ADD
@@ -23,8 +25,10 @@ router.post("/", verifyAdmin, async (req, res) => {
     );
     res.json({ message: "Added" });
   } catch (err) {
-    res.status(500).json({ error: "Failed" });
-  }
+  console.error("Carousel query error:", err);
+  res.status(500).json({ error: err.message });
+}
+
 });
 
 // DELETE
@@ -33,8 +37,10 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
     await pool.query("DELETE FROM public.carousel WHERE id=$1", [req.params.id]);
     res.json({ message: "Deleted" });
   } catch (err) {
-    res.status(500).json({ error: "Failed" });
-  }
+  console.error("Carousel query error:", err);
+  res.status(500).json({ error: err.message });
+}
+
 });
 
 module.exports = router;
